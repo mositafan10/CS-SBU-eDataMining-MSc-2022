@@ -1,17 +1,17 @@
 import json
-
+from drf_yasg.utils import swagger_auto_schema
 from django.http import JsonResponse    
 from rest_framework import generics
 
 from utils.common import response_data
-from utils.interpolation_methods import do_interpolation
-from .utils import read_json_time_series
+from .utils import read_json_time_series, do_interpolation
 from .serializers import Service1Serializer
 
 
 class Interpolation(generics.GenericAPIView):
     serializer_class = Service1Serializer
 
+    # @swagger_auto_schema(manual_parameters=['data'],)
     def post(self, request):
         req = json.loads(request.body)
         config = req['config']

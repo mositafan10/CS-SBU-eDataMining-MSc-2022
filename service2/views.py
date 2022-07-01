@@ -4,10 +4,9 @@ from rest_framework import generics
 from django.http import JsonResponse
 
 from utils.common import response_data
-from utils.interpolation_methods import do_interpolation
 
 from .serializers import Service2Serializer
-from .utils import read_json_time_series
+from .utils import read_json_time_series, do_interpolation
 
 
 class Interpolation(generics.GenericAPIView):
@@ -22,7 +21,7 @@ class Interpolation(generics.GenericAPIView):
 
         data = req['data']
         data, error = read_json_time_series(data, config)
-        
+
         if error:
             return JsonResponse(error, safe=False, status=400)
         data, error = do_interpolation(data, config)
@@ -36,4 +35,3 @@ class Interpolation(generics.GenericAPIView):
 
         result = response_data(result, config)
         return JsonResponse(result, safe=False)
-
